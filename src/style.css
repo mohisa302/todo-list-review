@@ -34,6 +34,8 @@ option {
 /* rest of your styles; like: */
 body {
   font-size: 0.875em;
+  display: flex;
+  flex-direction: column;
 }
 
 .list-title {
@@ -68,6 +70,7 @@ select:focus {
 .list-input {
   border: none;
   padding: 0;
+  width: 100%;
 }
 
 .form-container {
@@ -103,6 +106,8 @@ input[type='checkbox']:checked ~ del {
   display: flex;
   flex-direction: column;
   width: 100%;
+  cursor: move;
+  user-select: none;
 }
 
 .check-box {
@@ -168,4 +173,15 @@ input[type='checkbox']:checked ~ del {
 .trash-btn,
 .refresh {
   cursor: pointer;
+}
+
+[draggable] {
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+.dragging {
+  opacity: 0.5;
 }
