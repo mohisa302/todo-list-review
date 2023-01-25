@@ -1,8 +1,9 @@
-const display = (todoListss) => {
+const display = () => {
+  const listData = JSON.parse(localStorage.getItem('tasks')) || [];
   const list = document.querySelector('.list-container');
   list.innerHTML = '';
-  if (todoListss.length > 0) {
-    todoListss.forEach((task) => {
+  if (listData.length > 0) {
+    listData.forEach((task) => {
       const { description, index } = task;
       list.innerHTML += `
     <li class="task-container">
@@ -29,7 +30,7 @@ const display = (todoListss) => {
           trashBtns[index].classList.remove('trash');
           inputTexts[index].contentEditable = 'true';
           inputTexts[index].setAttribute('contenteditable', 'true');
-          localStorage.setItem('tasks', JSON.stringify(todoListss));
+          localStorage.setItem('tasks', JSON.stringify(listData));
         });
       });
 
@@ -37,37 +38,37 @@ const display = (todoListss) => {
         inputText.addEventListener(
           'input',
           () => {
-            todoListss[index].description = inputText.textContent;
-            localStorage.setItem('tasks', JSON.stringify(todoListss));
+            listData[index].description = inputText.textContent;
+            localStorage.setItem('tasks', JSON.stringify(listData));
           },
-          false
+          false,
         );
       });
 
       checkBoxes.forEach((checkBox, index) => {
-        if (todoListss[index].completed === true) {
+        if (listData[index].completed === true) {
           checkBox.checked = true;
           inputTexts[index].previousElementSibling.disabled = true;
         }
 
         checkBox.addEventListener('change', () => {
-          todoListss[index].completed = true;
+          listData[index].completed = true;
           inputTexts[index].disabled = true;
           inputTexts[index].previousElementSibling.disabled = true;
-          localStorage.setItem('tasks', JSON.stringify(todoListss));
+          localStorage.setItem('tasks', JSON.stringify(listData));
         });
       });
 
       trashBtns.forEach((trashBtn, index) => {
         trashBtn.addEventListener('click', () => {
-          const indexRem = todoListss.findIndex(
-            (task) => task.description === inputTexts[index].textContent
+          const indexRem = listData.findIndex(
+            (task) => task.description === inputTexts[index].textContent,
           );
-          todoListss.splice(indexRem, 1);
-          todoListss.forEach((taskDay, indexDay) => {
+          listData.splice(indexRem, 1);
+          listData.forEach((taskDay, indexDay) => {
             taskDay.index = indexDay + 1;
           });
-          localStorage.setItem('tasks', JSON.stringify(todoListss));
+          localStorage.setItem('tasks', JSON.stringify(listData));
           trashBtn.parentNode.parentNode.remove();
         });
         trashBtns = document.querySelectorAll('.trash-btn');

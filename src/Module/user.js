@@ -1,13 +1,13 @@
 import display from './ui.js';
 
-export const todoListss = JSON.parse(localStorage.getItem('todos')) || [];
 const refreshIcon = document.querySelector('.refresh');
 const addBtn = document.querySelector('.add-btn');
 const newTask = document.querySelector('.list-input');
 
 const addTask = (task) => {
-  if (!todoListss) {
-    todoListss = [
+  let listData = JSON.parse(localStorage.getItem('tasks')) || [];
+  if (!listData) {
+    listData = [
       {
         description: task,
         completed: false,
@@ -15,24 +15,26 @@ const addTask = (task) => {
       },
     ];
   } else {
-    todoListss.push({
+    listData.push({
       description: task,
       completed: false,
-      index: todoListss.length + 1,
+      index: listData.length + 1,
     });
   }
-  localStorage.setItem('tasks', JSON.stringify(todoListss));
+  localStorage.setItem('tasks', JSON.stringify(listData));
   display();
 };
 
 addBtn.addEventListener('click', () => {
   if (newTask.value) addTask(newTask.value);
   newTask.value = '';
-  display(todoListss);
+  display();
 });
 
 refreshIcon.addEventListener('click', () => {
-  display(todoListss);
+  const listData = [];
+  localStorage.setItem('tasks', JSON.stringify(listData));
+  display();
 });
 
 window.addEventListener('load', () => {
